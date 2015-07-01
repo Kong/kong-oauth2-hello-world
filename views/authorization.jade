@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Authorize Application
+  body
+    h1 Authorize #{application_name}
+    p This application would like to have authorization to access your data.
+    if scope
+      ul
+        each val in scope.split(",")
+          if SCOPE_DESCRIPTIONS[val.trim()]
+            li= val.trim() + " - " + SCOPE_DESCRIPTIONS[val.trim()]
+
+    form(name="authorize", action="/authorize", method="post")
+      input(type="hidden", name="client_id", value=client_id)
+      input(type="hidden", name="response_type", value=response_type)
+      input(type="hidden", name="scope", value=scope)
+      input(type="submit", value="Authorize")
