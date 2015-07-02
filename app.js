@@ -70,7 +70,14 @@ function get_application_name(client_id, callback) {
 function authorize(client_id, response_type, scope, callback) {
   request({
     url: KONG_API + "/oauth2/authorize",
-    form: { client_id: client_id, response_type: response_type, scope: scope, provision_key: PROVISION_KEY },
+    form: { 
+      client_id: client_id, 
+      response_type: response_type, 
+      scope: scope, 
+      provision_key: PROVISION_KEY,
+      authenticated_username: "thefosk", // Hard-coding this value (it should be the logged-in username)
+      authenticated_userid: "user123" // Hard-coding this value (it should be the logged-in user ID)
+    },
     method: "POST",
     headers: { host: API_PUBLIC_DNS }
   }, function(error, response, body) {
