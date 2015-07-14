@@ -66,7 +66,7 @@ This will output a response including an auto-generated `provision_key` that we 
 }
 ```
 
-The `provision_key` will be sent by the web application when communicating with Kong, to securely authenticates itself with Kong.
+The `provision_key` will be sent by the web application when communicating with Kong, to securely authenticate itself with Kong.
 
 * Let's create a Kong consumer (called `thefosk`):
 
