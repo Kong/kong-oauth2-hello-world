@@ -42,7 +42,7 @@ curl -d "name=oauth2" \
      http://127.0.0.1:8001/apis/test.com/plugins/
 ```
 
-This will output a response including an auto-generate `provision_key` that we need to use later:
+This will output a response including an auto-generated `provision_key` that we need to use later:
 
 ```json
 {
@@ -65,6 +65,8 @@ This will output a response including an auto-generate `provision_key` that we n
     "id": "656954bd-2130-428f-c25c-8ec47227dafa"
 }
 ```
+
+The `provision_key` will be sent by the web application when communicating with Kong, to securely authenticates itself with Kong.
 
 * Let's create a Kong consumer (called `thefosk`):
 
