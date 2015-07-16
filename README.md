@@ -103,10 +103,10 @@ Now that Kong has all the data configured, we can start our application using th
 
 ```shell
 # Exporting some environment variables used by the Node.js application
-export PROVISION_KEY='2ef290c575cc46eec61947aa9f1e67d3'
-export KONG_ADMIN='http://127.0.0.1:8001'
-export KONG_API='http://127.0.0.1:8000'
-export API_PUBLIC_DNS='test.com'
+export PROVISION_KEY="2ef290c575cc46eec61947aa9f1e67d3"
+export KONG_ADMIN="http://127.0.0.1:8001"
+export KONG_API="http://127.0.0.1:8000"
+export API_PUBLIC_DNS="test.com"
 export SCOPES="{ \
   \"email\": \"Grant permissions to read your email address\", \
   \"address\": \"Grant permissions to read your address information\", \
