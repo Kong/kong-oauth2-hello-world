@@ -7,39 +7,40 @@ var app        = express();
 app.set('view engine', 'jade');
 app.use(bodyParser());
 
+function load_env_variable(name) {
+  var value = process.env[name]
+  if (value) {
+    console.log(name + " is " + value);
+    return value;
+  } else {
+    console.error("You need to specify a value for the environment variable: " + name);
+    process.exit(1);
+  }
+}
+
 /*
   This is the secret provision key that the plugin has generated
   after being added to the API
 */
-var PROVISION_KEY = process.argv.slice(2)[0];
-if (!PROVISION_KEY) {
-  console.error("You need to specify a provision_key when starting the server: node app.js [PROVISION_KEY]")
-  process.exit(1)
-} else {
-  console.log("Provision Key is: " + PROVISION_KEY)
-}
+var PROVISION_KEY = load_env_variable("PROVISION_KEY");
 
 /*
   URLs to Kong
 */
-var KONG_ADMIN = "http://127.0.0.1:8001"
-var KONG_API = "http://127.0.0.1:8000"
+var KONG_ADMIN = load_env_variable("KONG_ADMIN");
+var KONG_API = load_env_variable("KONG_API");
 
 /*
   The API Public DNS, required later when making a request
   to authorize the OAuth 2.0 client application
 */
-var API_PUBLIC_DNS = "test.com"
+var API_PUBLIC_DNS = load_env_variable("API_PUBLIC_DNS");
 
 /* 
   The scopes that we support, with their extended
   description for a nicer frontend user experience
 */
-var SCOPE_DESCRIPTIONS = {
-  email: "Grant permissions to read your email address",
-  address: "Grant permissions to read your address information",
-  phone: "Grant permissions to read your mobile phone number"
-}
+var SCOPE_DESCRIPTIONS = JSON.parse(load_env_variable("SCOPES")); //The scopes that we support, with their extended
 
 /*
   Retrieves the OAuth 2.0 client application name from
@@ -47,18 +48,18 @@ var SCOPE_DESCRIPTIONS = {
 */
 function get_application_name(client_id, callback) {
   request({
+    method: "GET",
     url: KONG_ADMIN + "/oauth2",
-    qs: { client_id: client_id },
-    method: "GET"
+    qs: { client_id: client_id }
   }, function(error, response, body) {
-    var application_name
+    var application_name;
     if (client_id && !error) {
-      var json_response = JSON.parse(body)
+      var json_response = JSON.parse(body);
       if (json_response.data.length == 1) {
-        application_name = json_response.data[0].name  
+        application_name = json_response.data[0].name;
       }
     }
-    callback(application_name)
+    callback(application_name);
   });
 }
 
@@ -69,18 +70,18 @@ function get_application_name(client_id, callback) {
 */
 function authorize(client_id, response_type, scope, callback) {
   request({
+    method: "POST",
     url: KONG_API + "/oauth2/authorize",
+    headers: { host: API_PUBLIC_DNS },
     form: { 
       client_id: client_id, 
       response_type: response_type, 
       scope: scope, 
       provision_key: PROVISION_KEY,
       authenticated_userid: "userid123" // Hard-coding this value (it should be the logged-in user ID)
-    },
-    method: "POST",
-    headers: { host: API_PUBLIC_DNS }
+    }
   }, function(error, response, body) {
-    callback(JSON.parse(body).redirect_uri)
+    callback(JSON.parse(body).redirect_uri);
   });
 }
 
@@ -88,7 +89,7 @@ function authorize(client_id, response_type, scope, callback) {
   The route that shows the authorization page
 */
 app.get('/authorize', function(req, res) {
-  var querystring = url.parse(req.url, true).query
+  var querystring = url.parse(req.url, true).query;
   get_application_name(querystring.client_id, function(application_name) {
     if (application_name) {
       res.render('authorization', { 
@@ -99,7 +100,7 @@ app.get('/authorize', function(req, res) {
         SCOPE_DESCRIPTIONS: SCOPE_DESCRIPTIONS 
       });
     } else {
-      res.status(403).send("Invalid client_id")
+      res.status(403).send("Invalid client_id");
     }
   });
 });

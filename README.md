@@ -102,10 +102,20 @@ That outputs the following response, including the `client_id` and `client_secre
 Now that Kong has all the data configured, we can start our application using the `provision_key` that has been returned when we added the plugin:
 
 ```shell
-node app.js 2ef290c575cc46eec61947aa9f1e67d3
-```
+# Exporting some environment variables used by the Node.js application
+export PROVISION_KEY='2ef290c575cc46eec61947aa9f1e67d3'
+export KONG_ADMIN='http://127.0.0.1:8001'
+export KONG_API='http://127.0.0.1:8000'
+export API_PUBLIC_DNS='test.com'
+export SCOPES="{ \
+  \"email\": \"Grant permissions to read your email address\", \
+  \"address\": \"Grant permissions to read your address information\", \
+  \"phone\": \"Grant permissions to read your mobile phone number\" \
+}"
 
-In our case `2ef290c575cc46eec61947aa9f1e67d3` is the `provision_key`.
+# Starting the node.js application
+node app.js
+```
 
 # Testing the Authorization Flow
 
