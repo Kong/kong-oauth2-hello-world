@@ -123,7 +123,7 @@ To start the authorization flow we need to simulate the request that the client 
 
 *Note:* In our example we are skipping the log-in of the user, which is something you will do in production **before** showing the authorization page.
 
-With your browser, go to `http://127.0.0.1:3000/authorize?response_type=code&scope=email, address&client_id=318f98be1453427bc2937fceab9811bd` to show the authrorization page. You will see a page like:
+With your browser, go to `http://127.0.0.1:3000/authorize?response_type=code&scope=email%20address&client_id=318f98be1453427bc2937fceab9811bd` to show the authrorization page. You will see a page like:
 
 ![Authorization Prompt](http://i.imgur.com/JdY0H0K.png)
 
