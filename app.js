@@ -7,6 +7,9 @@ var app        = express();
 app.set('view engine', 'jade');
 app.use(bodyParser());
 
+// Accept every SSL certificate
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 function load_env_variable(name) {
   var value = process.env[name]
   if (value) {

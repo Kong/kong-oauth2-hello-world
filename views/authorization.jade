@@ -7,7 +7,7 @@ html
     p This application would like to have authorization to access your data.
     if scope
       ul
-        each val in scope.split(",")
+        each val in scope.split(" ")
           if SCOPE_DESCRIPTIONS[val.trim()]
             li= val.trim() + " - " + SCOPE_DESCRIPTIONS[val.trim()]
 
