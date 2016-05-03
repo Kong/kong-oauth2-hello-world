@@ -28,8 +28,8 @@ To run this project, execute the following operations.
 * Let's add a simple test API:
 
 ```shell
-curl -d "public_dns=test.com" \
-     -d "target_url=http://mockbin.org/" \
+curl -d "request_host=test.com" \
+     -d "upstream_url=http://mockbin.org/" \
      http://127.0.0.1:8001/apis/
 ```
 
@@ -37,8 +37,8 @@ curl -d "public_dns=test.com" \
 
 ```shell
 curl -d "name=oauth2" \
-     -d "value.scopes=email, phone, address" \
-     -d "value.mandatory_scope=true" \
+     -d "config.scopes=email, phone, address" \
+     -d "config.mandatory_scope=true" \
      http://127.0.0.1:8001/apis/test.com/plugins/
 ```
 
@@ -105,7 +105,7 @@ Now that Kong has all the data configured, we can start our application using th
 # Exporting some environment variables used by the Node.js application
 export PROVISION_KEY="2ef290c575cc46eec61947aa9f1e67d3"
 export KONG_ADMIN="http://127.0.0.1:8001"
-export KONG_API="http://127.0.0.1:8000"
+export KONG_API="https://127.0.0.1:8443"
 export API_PUBLIC_DNS="test.com"
 export SCOPES="{ \
   \"email\": \"Grant permissions to read your email address\", \
@@ -123,7 +123,7 @@ To start the authorization flow we need to simulate the request that the client 
 
 *Note:* In our example we are skipping the log-in of the user, which is something you will do in production **before** showing the authorization page.
 
-With your browser, go to `http://127.0.0.1:3000/authorize?response_type=code&scope=email, address&client_id=318f98be1453427bc2937fceab9811bd` to show the authrorization page. You will see a page like:
+With your browser, go to `http://127.0.0.1:3000/authorize?response_type=code&scope=email%20address&client_id=318f98be1453427bc2937fceab9811bd` to show the authrorization page. You will see a page like:
 
 ![Authorization Prompt](http://i.imgur.com/JdY0H0K.png)
 
