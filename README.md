@@ -28,8 +28,8 @@ To run this project, execute the following operations.
 * Let's add a simple test API:
 
 ```shell
-curl -d "public_dns=test.com" \
-     -d "target_url=http://mockbin.org/" \
+curl -d "request_host=test.com" \
+     -d "upstream_url=http://mockbin.org/" \
      http://127.0.0.1:8001/apis/
 ```
 
