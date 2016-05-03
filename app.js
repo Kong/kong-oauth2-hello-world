@@ -118,6 +118,14 @@ app.post('/authorize', function(req, res) {
   });
 });
 
+/*
+  Index page
+*/
+
+app.get("/", function(req, res) {
+  res.render('index');
+});
+
 app.listen(3000);
 
 console.log("Running at Port 3000");
