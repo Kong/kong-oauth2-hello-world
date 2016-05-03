@@ -138,3 +138,15 @@ For testing purposes we set the `redirect_uri` to `http://getkong.org`, but in p
 # Conclusions
 
 Done! Now the client application has a `code` that it can use later on to request an `access_token`. From a provider perspective our job only consists in showing the authorization page and redirecting the user.
+
+To retrieve an `access_token` you can now execute the following request:
+
+```shell
+curl https://127.0.0.1:8443/oauth2/token \
+     -H "Host: test.com" \
+     -d "grant_type=authorization_code" \ 
+     -d "client_id=318f98be1453427bc2937fceab9811bd" \ 
+     -d "client_secret=efbc9e1f2bcc4968c988ef5b839dd5a4" \
+     -d "redirect_uri=http://getkong.org/" \ 
+     -d "code=ad286cf6694d40aac06eff2797b7208d" --insecure
+```
