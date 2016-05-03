@@ -37,8 +37,8 @@ curl -d "request_host=test.com" \
 
 ```shell
 curl -d "name=oauth2" \
-     -d "value.scopes=email, phone, address" \
-     -d "value.mandatory_scope=true" \
+     -d "config.scopes=email, phone, address" \
+     -d "config.mandatory_scope=true" \
      http://127.0.0.1:8001/apis/test.com/plugins/
 ```
 
