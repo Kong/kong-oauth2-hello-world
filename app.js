@@ -1,6 +1,6 @@
 var request    = require('request');
 var url        = require('url');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var express    = require("express");
 var app        = express();
 
@@ -11,7 +11,7 @@ app.use(bodyParser());
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 function load_env_variable(name) {
-  var value = process.env[name]
+  var value = process.env[name];
   if (value) {
     console.log(name + " is " + value);
     return value;
