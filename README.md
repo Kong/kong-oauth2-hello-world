@@ -39,6 +39,7 @@ curl -d "request_host=test.com" \
 curl -d "name=oauth2" \
      -d "config.scopes=email, phone, address" \
      -d "config.mandatory_scope=true" \
+     -d "config.enable_authorization_code=true" \
      http://127.0.0.1:8001/apis/test.com/plugins/
 ```
 
@@ -144,9 +145,9 @@ To retrieve an `access_token` you can now execute the following request:
 ```shell
 curl https://127.0.0.1:8443/oauth2/token \
      -H "Host: test.com" \
-     -d "grant_type=authorization_code" \ 
-     -d "client_id=318f98be1453427bc2937fceab9811bd" \ 
+     -d "grant_type=authorization_code" \
+     -d "client_id=318f98be1453427bc2937fceab9811bd" \
      -d "client_secret=efbc9e1f2bcc4968c988ef5b839dd5a4" \
-     -d "redirect_uri=http://getkong.org/" \ 
+     -d "redirect_uri=http://getkong.org/" \
      -d "code=ad286cf6694d40aac06eff2797b7208d" --insecure
 ```
