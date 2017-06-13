@@ -41,7 +41,8 @@ curl -d "name=oauth2" \
      -d "config.scopes=email, phone, address" \
      -d "config.mandatory_scope=true" \
      -d "config.enable_authorization_code=true" \
-     http://127.0.0.1:8001/apis/test.com/plugins/
+     -d "config.accept_http_if_already_terminated=true" \
+     http://127.0.0.1:8001/apis/cats/plugins/
 ```
 
 This will output a response including an auto-generated `provision_key` that we need to use later:
