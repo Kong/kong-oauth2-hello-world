@@ -34,16 +34,21 @@ var KONG_ADMIN = load_env_variable("KONG_ADMIN");
 var KONG_API = load_env_variable("KONG_API");
 
 /*
-  The API Public DNS, required later when making a request
+  The path to the API, required later when making a request
   to authorize the OAuth 2.0 client application
 */
-var API_PUBLIC_DNS = load_env_variable("API_PUBLIC_DNS");
+var API_PATH = load_env_variable("API_PATH");
 
 /* 
   The scopes that we support, with their extended
   description for a nicer frontend user experience
 */
-var SCOPE_DESCRIPTIONS = JSON.parse(load_env_variable("SCOPES")); //The scopes that we support, with their extended
+var SCOPE_DESCRIPTIONS = JSON.parse(load_env_variable("SCOPES"));
+
+/* 
+  The port the authorization server listens on. Defaults to 3000.
+*/
+var LISTEN_PORT = process.env["LISTEN_PORT"] || 3000
 
 /*
   Retrieves the OAuth 2.0 client application name from
@@ -74,9 +79,8 @@ function get_application_name(client_id, callback) {
 function authorize(client_id, response_type, scope, callback) {
   request({
     method: "POST",
-    url: KONG_API + "/oauth2/authorize",
-    headers: { host: API_PUBLIC_DNS },
-    form: { 
+    url: KONG_API + API_PATH + "/oauth2/authorize",
+	  form: { 
       client_id: client_id, 
       response_type: response_type, 
       scope: scope, 
@@ -126,6 +130,6 @@ app.get("/", function(req, res) {
   res.render('index');
 });
 
-app.listen(3000);
+app.listen(LISTEN_PORT);
 
-console.log("Running at Port 3000");
+console.log("Running at Port " + LISTEN_PORT);

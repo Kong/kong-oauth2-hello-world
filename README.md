@@ -23,12 +23,13 @@ npm install
 
 To run this project, execute the following operations.
 
-* Make sure you have Kong >= 0.4.0 running. We assume Kong is running at `127.0.0.1` with the default ports.
+* Make sure you have Kong >= 0.10.3 running. We assume Kong is running at `127.0.0.1` with the default ports.
 
 * Let's add a simple test API:
 
 ```shell
-curl -d "request_host=test.com" \
+curl -d "name=cats" \
+     -d "uris=/cats" \
      -d "upstream_url=http://mockbin.org/" \
      http://127.0.0.1:8001/apis/
 ```
@@ -40,7 +41,7 @@ curl -d "name=oauth2" \
      -d "config.scopes=email, phone, address" \
      -d "config.mandatory_scope=true" \
      -d "config.enable_authorization_code=true" \
-     http://127.0.0.1:8001/apis/test.com/plugins/
+     http://127.0.0.1:8001/apis/cats/plugins/
 ```
 
 This will output a response including an auto-generated `provision_key` that we need to use later:
@@ -57,7 +58,7 @@ This will output a response including an auto-generated `provision_key` that we 
         "mandatory_scope": true,
         "provision_key": "2ef290c575cc46eec61947aa9f1e67d3",
         "hide_credentials": false,
-        "enable_implicit_grant": false,
+        "enable_authorization_code": true,
         "token_expiration": 7200
     },
     "created_at": 1435783325000,
@@ -100,23 +101,34 @@ That outputs the following response, including the `client_id` and `client_secre
 
 # Running the web application
 
-Now that Kong has all the data configured, we can start our application using the `provision_key` that has been returned when we added the plugin:
+Now that Kong has all the data configured, we can start our application using the `provision_key` that has been returned when we added the plugin.
+
+Export the environment variables used by the Node.js application:
 
 ```shell
-# Exporting some environment variables used by the Node.js application
 export PROVISION_KEY="2ef290c575cc46eec61947aa9f1e67d3"
 export KONG_ADMIN="http://127.0.0.1:8001"
 export KONG_API="https://127.0.0.1:8443"
-export API_PUBLIC_DNS="test.com"
+export API_PATH="/cats"
 export SCOPES="{ \
   \"email\": \"Grant permissions to read your email address\", \
   \"address\": \"Grant permissions to read your address information\", \
   \"phone\": \"Grant permissions to read your mobile phone number\" \
 }"
+```
 
-# Starting the node.js application
+Note: By default, the application listens on port 3000. You can modify this if you like:
+
+```shell
+export LISTEN_PORT=3301
+```
+
+Then, start the authorization server:
+
+```shell
 node app.js
 ```
+
 
 # Testing the Authorization Flow
 
