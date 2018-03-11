@@ -163,7 +163,6 @@ To retrieve an `access_token` you can now execute the following request:
 
 ```shell
 curl https://127.0.0.1:8443/cats/oauth2/token \
-     -H "Host: test.com" \
      -d "grant_type=authorization_code" \
      -d "client_id=318f98be1453427bc2937fceab9811bd" \
      -d "client_secret=efbc9e1f2bcc4968c988ef5b839dd5a4" \
