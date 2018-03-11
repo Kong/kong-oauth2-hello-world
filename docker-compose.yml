@@ -1,0 +1,39 @@
+version: '3.4'
+services:
+  kong:
+    image: kong:0.11.2
+    restart: always
+    depends_on:
+      - kong_db
+    ports:
+      - 8000:8000
+      - 8443:8443
+      - 8001:8001
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+      KONG_PG_DATABASE: kong
+      KONG_PG_HOST: kong_db
+      KONG_LOG_LEVEL: debug
+
+  kong_migration:
+    image: kong:0.11.2
+    depends_on:
+      - kong_db
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+      KONG_PG_DATABASE: kong
+      KONG_PG_HOST: kong_db
+      KONG_LOG_LEVEL: debug
+    command: kong migrations up
+
+  kong_db:
+    image: postgres:9.4
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_DB: kong
+      POSTGRES_PASSWORD: kong
+

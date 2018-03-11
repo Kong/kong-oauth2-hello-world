@@ -23,7 +23,14 @@ npm install
 
 To run this project, execute the following operations.
 
-* Make sure you have Kong >= 0.10.3 running. We assume Kong is running at `127.0.0.1` with the default ports.
+* Make sure you have Kong >= 0.10.3 running. We assume Kong is running at `127.0.0.1` with the default ports. One way to do it is using docker compose provided in `docker-compose.yml` and run the following
+
+```shell
+# needs to run sequentially due to migration
+docker-compose up kong_db
+docker-compose up kong_migration
+docker-compose up kong
+```
 
 * Let's add a simple test API:
 
