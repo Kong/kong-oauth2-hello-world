@@ -25,30 +25,40 @@ To run this project, execute the following operations.
 
 * Make sure you have Kong >= 0.10.3 running. We assume Kong is running at `127.0.0.1` with the default ports.
 
-* Let's add a simple test API:
+* Let's add a simple test service:
 
 ```shell
-curl -d "name=cats" \
-     -d "uris=/cats" \
-     -d "upstream_url=http://mockbin.org/" \
-     http://127.0.0.1:8001/apis/
+curl -X POST \
+  --url "http://127.0.0.1:8001/services" \
+  --data "name=mock-service" \
+  --data "url=http://mockbin.org/api" 
+```
+
+* Let's add a route for that service:
+
+```shell
+curl -X POST \
+  --url "http://127.0.0.1:8001/services/mock-service/routes" \
+  --data 'hosts[]=mockbin.org' \
+  --data 'paths[]=/mock'
 ```
 
 * Let's add the OAuth 2.0 plugin, with three available scopes:
 
 ```shell
-curl -d "name=oauth2" \
-     -d "config.scopes=email, phone, address" \
-     -d "config.mandatory_scope=true" \
-     -d "config.enable_authorization_code=true" \
-     http://127.0.0.1:8001/apis/cats/plugins/
+curl -X POST \
+  --url http://127.0.0.1:8001/services/mock-service/plugins/
+  --data "name=oauth2" \
+  --data "config.scopes=email, phone, address" \
+  --data "config.mandatory_scope=true" \
+  --data "config.enable_authorization_code=true"
 ```
 
 This will output a response including an auto-generated `provision_key` that we need to use later:
 
 ```json
 {
-    "api_id": "2c0c8c84-cd7c-40b7-c0b8-41202e5ee50b",
+    "service_id": "2c0c8c84-cd7c-40b7-c0b8-41202e5ee50b",
     "value": {
         "scopes": [
             "email",
@@ -73,16 +83,20 @@ The `provision_key` will be sent by the web application when communicating with 
 * Let's create a Kong consumer (called `thefosk`):
 
 ```shell
-curl -d "username=thefosk" \
-     http://127.0.0.1:8001/consumers/
+curl -X POST \
+  --url "http://127.0.0.1:8001/consumers/" \
+  --data "username=thefosk" 
+     
 ```
 
 * And the first OAuth 2.0 client application called `Hello World App`:
 
 ```shell
-curl -d "name=Hello World App" \
-     -d "redirect_uri=http://getkong.org/" \
-     http://127.0.0.1:8001/consumers/thefosk/oauth2/
+curl -X POST \ 
+  --url "http://127.0.0.1:8001/consumers/thefosk/oauth2/" \
+  --data "name=Hello World App" \
+  --data "redirect_uri=http://getkong.org/"
+  
 ```
 
 That outputs the following response, including the `client_id` and `client_secret` that we will use later:
@@ -109,7 +123,8 @@ Export the environment variables used by the Node.js application:
 export PROVISION_KEY="2ef290c575cc46eec61947aa9f1e67d3"
 export KONG_ADMIN="http://127.0.0.1:8001"
 export KONG_API="https://127.0.0.1:8443"
-export API_PATH="/cats"
+export API_PATH="/mock"
+export SERVICE_HOST="mockbin.org"
 export SCOPES="{ \
   \"email\": \"Grant permissions to read your email address\", \
   \"address\": \"Grant permissions to read your address information\", \
