@@ -28,6 +28,11 @@ function load_env_variable(name) {
 var PROVISION_KEY = load_env_variable("PROVISION_KEY");
 
 /*
+  This is the host for the service that OAuth2.0 applies to
+/*
+var SERVICE_HOST = load_env_variable("SERVICE_HOST")
+
+/*
   URLs to Kong
 */
 var KONG_ADMIN = load_env_variable("KONG_ADMIN");
@@ -80,7 +85,10 @@ function authorize(client_id, response_type, scope, callback) {
   request({
     method: "POST",
     url: KONG_API + API_PATH + "/oauth2/authorize",
-	  form: { 
+    headers: {
+      Host: SERVICE_HOST
+    },
+    form: { 
       client_id: client_id, 
       response_type: response_type, 
       scope: scope, 
