@@ -170,13 +170,13 @@ Done! Now the client application has a `code` that it can use later on to reques
 To retrieve an `access_token` you can now execute the following request:
 
 ```shell
-curl -X POST \
-  --url "https://127.0.0.1:8443/oauth2/token" \
-  --header "Host: test.com" \
-  --data "grant_type=authorization_code" \
-  --data "client_id=318f98be1453427bc2937fceab9811bd" \
-  --data "client_secret=efbc9e1f2bcc4968c988ef5b839dd5a4" \
-  --data "redirect_uri=http://getkong.org/" \
-  --data "code=ad286cf6694d40aac06eff2797b7208d" \
+curl -X POST 
+  --url "https://127.0.0.1:8443/mock/oauth2/token" 
+  --header "Host: mockbin.org" 
+  --data "grant_type=authorization_code" 
+  --data "client_id=318f98be1453427bc2937fceab9811bd" 
+  --data "client_secret=efbc9e1f2bcc4968c988ef5b839dd5a4" 
+  --data "redirect_uri=http://getkong.org/" 
+  --data "code=ad286cf6694d40aac06eff2797b7208d" 
   --insecure
 ```
