@@ -29,7 +29,7 @@ var PROVISION_KEY = load_env_variable("PROVISION_KEY");
 
 /*
   This is the host for the service that OAuth2.0 applies to
-/*
+*/
 var SERVICE_HOST = load_env_variable("SERVICE_HOST")
 
 /*
