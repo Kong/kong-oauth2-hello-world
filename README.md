@@ -1,6 +1,6 @@
 # OAuth 2.0 Hello World for Kong
 
-This is a simple node.js + express.js + jade application that demonstrates a simple implementation of the OAuth 2.0 authorization page required to make the [OAuth 2.0 plugin](http://getkong.org/plugins/oauth2-authentication) work on [Kong](getkong.org).
+This is a simple node.js + express.js + jade application that demonstrates a simple implementation of the OAuth 2.0 authorization page required to make the [OAuth 2.0 plugin](http://konghq.com/plugins/oauth2-authentication) work on [Kong](konghq.com).
 
 # Files
 
@@ -47,7 +47,7 @@ curl -X POST \
 
 ```shell
 curl -X POST \
-  --url http://127.0.0.1:8001/services/mock-service/plugins/
+  --url http://127.0.0.1:8001/services/mock-service/plugins/ \
   --data "name=oauth2" \
   --data "config.scopes=email, phone, address" \
   --data "config.mandatory_scope=true" \
@@ -85,18 +85,16 @@ The `provision_key` will be sent by the web application when communicating with 
 ```shell
 curl -X POST \
   --url "http://127.0.0.1:8001/consumers/" \
-  --data "username=thefosk" 
-     
+  --data "username=thefosk"
 ```
 
 * And the first OAuth 2.0 client application called `Hello World App`:
 
 ```shell
-curl -X POST \ 
+curl -X POST \
   --url "http://127.0.0.1:8001/consumers/thefosk/oauth2/" \
   --data "name=Hello World App" \
-  --data "redirect_uri=http://getkong.org/"
-  
+  --data "redirect_uri=http://konghq.com/"
 ```
 
 That outputs the following response, including the `client_id` and `client_secret` that we will use later:
@@ -108,7 +106,7 @@ That outputs the following response, including the `client_id` and `client_secre
     "id": "7ce2f90c-3ec5-4d93-cd62-3d42eb6f9b64",
     "name": "Hello World App",
     "created_at": 1435783376000,
-    "redirect_uri": "http://getkong.org/",
+    "redirect_uri": "http://konghq.com/",
     "client_secret": "efbc9e1f2bcc4968c988ef5b839dd5a4"
 }
 ```
@@ -158,10 +156,10 @@ With your browser, go to `http://127.0.0.1:3000/authorize?response_type=code&sco
 After clicking the "Authorize" button, you should be redirected to the `redirect_uri` we set up before with a `code` parameter in the querystring, like:
 
 ```
-http://getkong.org/?code=ad286cf6694d40aac06eff2797b7208d
+http://konghq.com/?code=ad286cf6694d40aac06eff2797b7208d
 ```
 
-For testing purposes we set the `redirect_uri` to `http://getkong.org`, but in production this will be an URL that the client application will be able to read to parse the code and exchange it with an access token.
+For testing purposes we set the `redirect_uri` to `http://konghq.com`, but in production this will be an URL that the client application will be able to read to parse the code and exchange it with an access token.
 
 # Conclusions
 
@@ -176,7 +174,7 @@ curl -X POST \
   --data "grant_type=authorization_code" \
   --data "client_id=318f98be1453427bc2937fceab9811bd" \
   --data "client_secret=efbc9e1f2bcc4968c988ef5b839dd5a4" \
-  --data "redirect_uri=http://getkong.org/" \
+  --data "redirect_uri=http://konghq.com/" \
   --data "code=ad286cf6694d40aac06eff2797b7208d" \
   --insecure
 ```
