@@ -217,7 +217,7 @@ The resulting json will contain the `access_token` as well as a `refresh_token`:
 curl -X GET \
   --url "http://127.0.0.1:8000/mock" \
   --header "Host: mockbin.org" \
-  --header "Authorization: njVmea9rlSbSUtZ2wDlHf62R7QKDgDhG"
+  --header "Authorization: bearer njVmea9rlSbSUtZ2wDlHf62R7QKDgDhG"
 ```
 
 The result should be a json response once again, containing an echo of the
