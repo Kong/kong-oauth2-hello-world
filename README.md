@@ -115,7 +115,7 @@ curl -X POST \
 curl -X POST \
   --url "http://127.0.0.1:8001/consumers/thefosk/oauth2/" \
   --data "name=Hello World App" \
-  --data "redirect_uri=http://konghq.com/"
+  --data "redirect_uris[]=http://konghq.com/"
 ```
 
 That outputs the following response, including the `client_id` and `client_secret` that we will use later:
