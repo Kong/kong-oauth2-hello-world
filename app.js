@@ -62,8 +62,7 @@ var LISTEN_PORT = process.env["LISTEN_PORT"] || 3000
 function get_application_name(client_id, callback) {
   request({
     method: "GET",
-    url: KONG_ADMIN + "/oauth2",
-    qs: { client_id: client_id }
+    url: KONG_ADMIN + "/oauth2/" + client_id
   }, function(error, response, body) {
     var application_name;
     if (client_id && !error) {
