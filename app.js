@@ -67,7 +67,7 @@ function get_application_name(client_id, callback) {
     var application_name;
     if (client_id && !error) {
       var json_response = JSON.parse(body);
-      if (json_response.data.length == 1) {
+      if (json_response.data && json_response.data.length == 1) {
         application_name = json_response.data[0].name;
       }
     }
